@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
           displayFilmDetails(films[0].id);
         } else {
           currentFilm = null;
-          poster.src = "assets/placeholderImage.png";
+          poster.src = "assets/poster-placeholder.webp";
           poster.alt = "[MOVIE TITLE]";
           title.textContent = "[MOVIE TITLE]";
           runtime.textContent = "[RUNTIME] minutes";
