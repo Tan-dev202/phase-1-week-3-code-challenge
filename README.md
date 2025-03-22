@@ -7,3 +7,4 @@ As a user one can:
 - [x] Buy a ticket for a movie. 
 - [x] Delete a film from the server. 
 - [x] When a movie is sold out (when there are no available tickets remaining), indicate that the movie is sold out by changing the button text to "Sold Out".
+- [x] Click on a movie in the menu to replace the currently displayed movie's details with the new movie's details.
