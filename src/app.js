@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const titleSpan = document.createElement("span");
       titleSpan.textContent = film.title;
+      titleSpan.style.cursor = 'pointer';
 
       titleSpan.addEventListener("click", () => {
         displayFilmDetails(film.id);
