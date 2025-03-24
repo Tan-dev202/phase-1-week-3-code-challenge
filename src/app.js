@@ -12,7 +12,8 @@ const buyTicketBtn = document.getElementById("buy-ticket");
 
 document.addEventListener("DOMContentLoaded", () => {
   const url = "http://localhost:3000/films";
-  fetch(url, { method: "GET", headers: { "Content-Type": "application/json" } })
+  fetch(url, { method: "GET", 
+    headers: { "Content-Type": "application/json" } })
     .then((response) => response.json())
     .then((data) => {
       films = data;
@@ -24,7 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   async function fetchFilmById(id) {
-    return fetch(`${url}${id}`).then((response) => response.json());
+    return fetch(`${url}${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then((response) => response.json());
   }
 
   function displayFilmDetails(id) {
@@ -133,8 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderFilmsList(films);
 
-        const remainingTickets =
-          currentFilm.capacity - currentFilm.ticketsSold;
+        const remainingTickets = currentFilm.capacity - currentFilm.ticketsSold;
         ticketNum.textContent = remainingTickets;
 
         if (remainingTickets <= 0) {
