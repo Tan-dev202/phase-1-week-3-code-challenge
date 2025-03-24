@@ -10,10 +10,9 @@ const showtime = document.getElementById("showtime");
 const ticketNum = document.getElementById("ticket-num");
 const buyTicketBtn = document.getElementById("buy-ticket");
 
-const baseUrl = "https://api.npoint.io/78c2888259f3d543a342/films/";
-
 document.addEventListener("DOMContentLoaded", () => {
-  fetch(baseUrl)
+  const url = "http://localhost:3000/films";
+  fetch(url, { method: "GET", headers: { "Content-Type": "application/json" } })
     .then((response) => response.json())
     .then((data) => {
       films = data;
@@ -25,14 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   async function fetchFilmById(id) {
-    return fetch(`${baseUrl}${id}`).then((response) => response.json());
+    return fetch(`${url}${id}`).then((response) => response.json());
   }
 
   function displayFilmDetails(id) {
     fetchFilmById(id).then((film) => {
       currentFilm = film;
 
-      const availableTickets = film.capacity - film.tickets_sold;
+      const availableTickets = film.capacity - film.ticketsSold;
 
       poster.src = film.poster;
       poster.alt = film.title;
@@ -63,13 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li");
       li.classList.add("film", "item");
 
-      if (film.capacity <= film.tickets_sold) {
+      if (film.capacity <= film.ticketsSold) {
         li.classList.add("sold-out");
       }
 
       const titleSpan = document.createElement("span");
       titleSpan.textContent = film.title;
-      titleSpan.style.cursor = 'pointer';
+      titleSpan.style.cursor = "pointer";
 
       titleSpan.addEventListener("click", () => {
         displayFilmDetails(film.id);
@@ -92,29 +91,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function buyTicket() {
-    
     if (!currentFilm) return;
 
-    const availableTickets = currentFilm.capacity - currentFilm.tickets_sold;
+    const availableTickets = currentFilm.capacity - currentFilm.ticketsSold;
 
     if (availableTickets <= 0) {
       alert("Sorry, this showing is sold out!");
       return;
     }
 
-    const updatedTicketsSold = currentFilm.tickets_sold + 1;
+    const updatedTicketsSold = currentFilm.ticketsSold + 1;
 
-    fetch(`${baseUrl}${currentFilm.id}`, {
+    fetch(`${url}${currentFilm.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        tickets_sold: updatedTicketsSold,
+        ticketsSold: updatedTicketsSold,
       }),
     })
       .then(() => {
-        return fetch(`${baseUrl}tickets`, {
+        return fetch(`${url}tickets`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -126,17 +124,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       })
       .then(() => {
-        currentFilm.tickets_sold = updatedTicketsSold;
+        currentFilm.ticketsSold = updatedTicketsSold;
 
         const filmIndex = films.findIndex((film) => film.id === currentFilm.id);
         if (filmIndex !== -1) {
-          films[filmIndex].tickets_sold = updatedTicketsSold;
+          films[filmIndex].ticketsSold = updatedTicketsSold;
         }
 
         renderFilmsList(films);
 
         const remainingTickets =
-          currentFilm.capacity - currentFilm.tickets_sold;
+          currentFilm.capacity - currentFilm.ticketsSold;
         ticketNum.textContent = remainingTickets;
 
         if (remainingTickets <= 0) {
@@ -149,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function deleteFilm(id) {
-    fetch(`${baseUrl}${id}`, {
+    fetch(`${url}${id}`, {
       method: "DELETE",
     }).then(() => {
       films = films.filter((film) => film.id !== id);
@@ -176,5 +174,5 @@ document.addEventListener("DOMContentLoaded", () => {
       alert(`Film "${id}" has been deleted successfully!`);
     });
   }
-  buyTicketBtn.addEventListener('click', buyTicket);
+  buyTicketBtn.addEventListener("click", buyTicket);
 });
