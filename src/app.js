@@ -11,7 +11,7 @@ const ticketNum = document.getElementById("ticket-num");
 const buyTicketBtn = document.getElementById("buy-ticket");
 
 document.addEventListener("DOMContentLoaded", () => {
-  const url = "http://localhost:3000/films";
+  const url = "https://my-json-server.typicode.com/Tan-dev202/phase-1-week-3-code-challenge/films";
   fetch(url, { method: "GET", 
     headers: { "Content-Type": "application/json" } })
     .then((response) => response.json())
