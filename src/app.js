@@ -10,7 +10,7 @@ const showtime = document.getElementById("showtime");
 const ticketNum = document.getElementById("ticket-num");
 const buyTicketBtn = document.getElementById("buy-ticket");
 
-const url = "http://localhost:3000/films/";
+const url = "https://my-json-server.typicode.com/Tan-dev202/phase-1-week-3-code-challenge/";
 
 document.addEventListener("DOMContentLoaded", () => {
   fetch(url)
